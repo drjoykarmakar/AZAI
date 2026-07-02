@@ -1,0 +1,10 @@
+site_name: AZAI Docs
+site_description: AI-Driven Xylazine Analytics and Innovation
+repo_url: https://github.com/drjoykarmakar/AZAI
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Methodology: methodology.md
+  - Roadmap: roadmap.md

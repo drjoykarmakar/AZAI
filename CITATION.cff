@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If AZAI supports your work, please cite the repository and the version or commit hash used."
+title: "AZAI: AI-Driven Xylazine Analytics and Innovation"
+authors:
+  - family-names: Karmakar
+    given-names: Joy
+version: 0.2.0
+date-released: 2026-07-02
+repository-code: "https://github.com/drjoykarmakar/AZAI"
+license: MIT
+keywords:
+  - cheminformatics
+  - RDKit
+  - xylazine
+  - fluorescent probes
+  - analytical chemistry
+abstract: "Open-source AI platform for xylazine-focused molecular intelligence and fluorescent probe discovery."
