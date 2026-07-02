@@ -12,6 +12,8 @@ dependencies:
   - streamlit
   - pytest
   - pip
+  - fastapi
+  - uvicorn
   - pip:
       - pydantic>=2.5
       - ruff>=0.1.9

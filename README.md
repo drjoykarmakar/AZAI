@@ -39,6 +39,8 @@ Interactive descriptor and similarity charts
 Markdown report generation from the web app
 - Markdown report generator
 - Streamlit MVP app
+- FastAPI local service
+- Command-line interface for batch workflows
 - Example command-line scripts
 - Pytest tests
 - GitHub Actions CI
@@ -106,6 +108,28 @@ Launch the web app:
 ```bash
 streamlit run app/streamlit_app.py
 ```
+
+
+## Command-line interface
+
+AZAI v0.8.0 includes a reproducible CLI:
+
+```bash
+azai analyze --smiles "CC1=Nc2ccccc2SC1(C)C"
+azai similarity --csv data/reference/azai_reference_molecules.csv --smiles-column smiles --label-column name --output similarity.csv
+azai probes --smiles "CC1=Nc2ccccc2SC1(C)C" --max-candidates 8 --output probes.json
+azai report --smiles "CC1=Nc2ccccc2SC1(C)C" --output azai_report.md
+```
+
+## Local API service
+
+Run the AZAI API locally:
+
+```bash
+uvicorn azai.api.main:app --reload
+```
+
+Open the interactive docs at `http://127.0.0.1:8000/docs`. The API includes molecule analysis, xylazine similarity, probe concept generation, local literature retrieval, report generation, and a safety endpoint.
 
 ## Example Python use
 
@@ -211,3 +235,7 @@ AZAI v0.7.0 expands fluorescent probe discovery with a transparent, modular desi
 - staged analytical experiment recommendations
 
 These outputs are intended for literature review, prioritization, and experimental planning. They are not validated performance claims.
+
+## v0.8.0 API and CLI
+
+This release makes AZAI easier to use outside Streamlit by adding a local FastAPI service and a console command. These workflows support reproducible analysis, notebook integration, and future deployment while keeping all scientific outputs transparent and safety-bounded.
