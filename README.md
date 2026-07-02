@@ -199,3 +199,15 @@ python examples/baseline_model_demo.py
 ```
 
 The baseline model demo uses toy values only and does not make validated QSAR claims.
+
+## v0.7.0 probe design engine
+
+AZAI v0.7.0 expands fluorescent probe discovery with a transparent, modular design engine:
+
+- recognition motif library for xylazine-oriented analytical hypotheses
+- linker library with polarity, flexibility, accessibility, rationale, and cautions
+- spectral-window helpers for built-in fluorophores
+- probe-adjusted interferent selectivity matrix
+- staged analytical experiment recommendations
+
+These outputs are intended for literature review, prioritization, and experimental planning. They are not validated performance claims.

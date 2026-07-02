@@ -38,6 +38,20 @@
 - Literature retrieval uses local TF-IDF by default so AZAI remains runnable without large model downloads.
 - Baseline models are exploratory tools and are not validated QSAR models unless users provide appropriate external validation.
 
+## [0.7.0] - Fluorescent probe design engine
+
+### Added
+- Recognition motif library for xylazine-oriented analytical probe hypotheses.
+- Linker library with polarity, flexibility, accessibility, rationale, and cautions.
+- Spectral-window helpers and optical-priority labels for built-in fluorophores.
+- Experiment prioritization helper for validation planning.
+- Probe-adjusted interferent selectivity matrix.
+- Expanded Streamlit Probe Designer and Interferent Risk workflows.
+- New probe-design documentation and tests.
+
+### Notes
+- All probe scores remain transparent heuristic research hypotheses, not experimentally validated analytical performance claims.
+
 ## [0.6.0] - Docking export and model-card polish
 
 ### Added

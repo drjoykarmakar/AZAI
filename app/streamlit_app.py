@@ -7,6 +7,10 @@ import streamlit as st
 
 from azai.fluorescence.fluorophores import FLUOROPHORES
 from azai.fluorescence.probe_builder import generate_probe_concepts
+from azai.fluorescence.recognition import recognition_motif_table
+from azai.fluorescence.linkers import linker_table
+from azai.fluorescence.selectivity_matrix import probe_interferent_matrix
+from azai.fluorescence.experiment_plan import recommended_experiment_plan
 from azai.molecules.descriptors import calculate_descriptors
 from azai.models.explainability import descriptor_contribution_table
 from azai.molecules.plots import descriptor_radar, similarity_bar_chart
@@ -106,9 +110,15 @@ with analog_tab:
 
 with probe_tab:
     st.subheader("Rule-based fluorescent probe designer")
-    generated = pd.DataFrame(generate_probe_concepts())
+    st.write("AZAI v0.7 combines fluorophore metadata, recognition motifs, linker tradeoffs, and analytical validation planning.")
+    generated = pd.DataFrame(generate_probe_concepts(limit=20))
     st.dataframe(generated, use_container_width=True)
     st.download_button("Download generated probe concepts", generated.to_csv(index=False), "azai_probe_concepts.csv")
+
+    with st.expander("Recognition motif library"):
+        st.dataframe(pd.DataFrame(recognition_motif_table()), use_container_width=True)
+    with st.expander("Linker library"):
+        st.dataframe(pd.DataFrame(linker_table()), use_container_width=True)
 
     st.divider()
     st.subheader("Manual probe scoring")
@@ -124,6 +134,10 @@ with probe_tab:
     score = score_probe_concept(concept, FLUOROPHORES[fluorophore])
     st.metric("AZAI probe score", score["total_score"])
     st.json(score)
+    plan = recommended_experiment_plan(float(score["total_score"]), mechanism, "common amines and alpha-2 agonists")
+    st.write("Recommended analytical validation plan")
+    for step in plan:
+        st.write(f"- {step}")
 
 with selectivity_tab:
     st.subheader("Interferent comparison")
@@ -131,6 +145,11 @@ with selectivity_tab:
     st.dataframe(risk, use_container_width=True)
     st.caption("Combined risk is a heuristic blend of fingerprint similarity and descriptor overlap, not a validated selectivity prediction.")
     st.download_button("Download interferent risk table", risk.to_csv(index=False), "azai_interferent_risk.csv")
+    st.subheader("Probe-adjusted selectivity triage")
+    probe_selectivity = st.slider("Probe selectivity component score", min_value=0, max_value=100, value=62)
+    adjusted = probe_interferent_matrix(float(probe_selectivity))
+    st.dataframe(adjusted, use_container_width=True)
+    st.download_button("Download probe-adjusted matrix", adjusted.to_csv(index=False), "azai_probe_adjusted_interferent_matrix.csv")
 
 
 with explain_tab:

@@ -10,6 +10,7 @@ nav:
   - Explainability: explainability.md
   - Literature Assistant: literature_assistant.md
   - Reporting: reporting.md
+  - Probe Design: probe_design.md
   - Roadmap: roadmap.md
 
   - Docking export: docking.md
