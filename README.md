@@ -6,7 +6,7 @@
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![RDKit](https://img.shields.io/badge/RDKit-cheminformatics-green)
-![Status](https://img.shields.io/badge/status-active%20MVP-orange)
+![Status](https://img.shields.io/badge/status-v1.0.0%20stable%20research%20MVP-brightgreen)
 
 > **AZAI is an open-source AI platform for xylazine-focused molecular intelligence and fluorescent probe discovery.**
 
@@ -20,32 +20,24 @@ AZAI helps researchers analyze xylazine and related molecular structures, priori
 
 ## Safety statement
 
-AZAI is intended for analytical chemistry, public health research, forensic detection, molecular characterization, fluorescent probe discovery, and medicinal chemistry education. It must not be used to optimize xylazine potency, abuse potential, harmful delivery, clandestine synthesis, or illicit drug production. The initial scoring models are heuristic and educational until validated with experimental data.
+AZAI is intended for analytical chemistry, public health research, forensic detection, molecular characterization, fluorescent probe discovery, and medicinal chemistry education. It must not be used to optimize xylazine potency, abuse potential, harmful delivery, clandestine synthesis, or illicit drug production. All scores are computational prioritization hypotheses unless experimentally validated.
 
-## What is included
+## What is included in v1.0.0
 
 - RDKit molecule loading and standardization helpers
-- Xylazine reference profile
-- Expanded molecular descriptors: formula, MW, exact mass, LogP, MR, TPSA, HBD, HBA, rotatable bonds, charge, rings, heteroatoms, fraction Csp3, QED
-- Morgan and MACCS fingerprints
-- Functional group detection with transparent SMARTS rules
-- Murcko and generic scaffold utilities
+- Xylazine reference profile and curated reference molecule table
+- Expanded molecular descriptors, Morgan fingerprints, and MACCS fingerprints
+- Functional group detection and Murcko scaffold utilities
 - Xylazine similarity ranking for CSV inputs
-- Built-in fluorophore library
-- Transparent probe scoring from 0 to 100
-Rule-based fluorescent probe concept generation
-Interferent selectivity-risk triage
-Interactive descriptor and similarity charts
-Markdown report generation from the web app
-- Markdown report generator
-- Streamlit MVP app
-- FastAPI local service
-- Command-line interface for batch workflows
-- Example command-line scripts
-- Pytest tests
-- GitHub Actions CI
-- Docker-ready scaffold
-- Citation, contributing, security, issue templates, and pre-commit configuration
+- Built-in fluorophore, recognition motif, and linker libraries
+- Transparent fluorescent probe concept generation and 0-100 heuristic scoring
+- Interferent selectivity-risk triage and probe-adjusted risk matrix
+- Descriptor interpretation and explainability helpers
+- Local TF-IDF literature-note retrieval assistant
+- Markdown, HTML, ZIP, and reproducibility-manifest exports
+- Docking-ready RDKit 3D ligand export bundle
+- Streamlit dashboard, FastAPI service, and `azai` CLI
+- Release health checks, model-card utilities, docs, examples, tests, Docker, CI, and citation metadata
 
 ## Repository architecture
 
@@ -53,16 +45,19 @@ Markdown report generation from the web app
 AZAI/
 ├── azai/                  # Python package
 │   ├── molecules/         # descriptors, fingerprints, similarity, scaffolds, visualization
-│   ├── xylazine/          # xylazine reference data and interpretation
-│   ├── fluorescence/      # fluorophore library and probe concepts
+│   ├── xylazine/          # xylazine reference data, database, selectivity
+│   ├── fluorescence/      # fluorophores, recognition motifs, linkers, probe concepts
 │   ├── scoring/           # transparent probe scoring and ranking
-│   ├── reports/           # Markdown report generation
-│   └── utils/             # IO, safety, logging helpers
+│   ├── reports/           # Markdown and HTML reports
+│   ├── docking/           # ligand export and docking workflow helpers
+│   ├── api/               # FastAPI service
+│   ├── cli/               # command-line interface
+│   └── release/           # health checks, model cards, release notes
 ├── app/                   # Streamlit web app
 ├── examples/              # runnable example scripts
 ├── tests/                 # pytest tests
 ├── docs/                  # project documentation
-└── data/                  # placeholder data folders
+└── data/                  # placeholder and reference data folders
 ```
 
 ## Installation
@@ -85,51 +80,21 @@ pip install -e ".[dev]"
 
 ## Quickstart
 
-Analyze xylazine and rank example molecules:
-
-```bash
-python examples/xylazine_probe_demo.py
-```
-
-Generate a Markdown report:
-
-```bash
-python examples/generate_report.py
-```
-
-Run tests:
-
 ```bash
 pytest
-```
-
-Launch the web app:
-
-```bash
 streamlit run app/streamlit_app.py
-```
-
-
-## Command-line interface
-
-AZAI v0.9.0 includes a reproducible CLI:
-
-```bash
+azai doctor --markdown
 azai analyze --smiles "CC1=Nc2ccccc2SC1(C)C"
-azai similarity --csv data/reference/azai_reference_molecules.csv --smiles-column smiles --label-column name --output similarity.csv
-azai probes --smiles "CC1=Nc2ccccc2SC1(C)C" --max-candidates 8 --output probes.json
 azai report --smiles "CC1=Nc2ccccc2SC1(C)C" --output azai_report.md
 ```
 
-## Local API service
-
-Run the AZAI API locally:
+Run the local API:
 
 ```bash
 uvicorn azai.api.main:app --reload
 ```
 
-Open the interactive docs at `http://127.0.0.1:8000/docs`. The API includes molecule analysis, xylazine similarity, probe concept generation, local literature retrieval, report generation, and a safety endpoint.
+Open the API docs at `http://127.0.0.1:8000/docs`.
 
 ## Example Python use
 
@@ -138,104 +103,35 @@ from azai.xylazine.reference import XYLAZINE, xylazine_profile
 from azai.molecules.descriptors import calculate_descriptors
 from azai.molecules.similarity import similarity_profile
 from azai.reports.markdown import generate_markdown_report
+from azai.release.health import health_report
 
+print(health_report()["status"])
 print(xylazine_profile())
 print(calculate_descriptors(XYLAZINE.smiles))
 print(similarity_profile("CN1CCN(CC1)C2=Nc3ccccc3S2", XYLAZINE.smiles))
 print(generate_markdown_report(XYLAZINE.smiles)[:500])
 ```
 
-
-### Docking-ready ligand export
-
-AZAI v0.6.0 can export RDKit-generated 3D ligand bundles for downstream docking preparation:
-
-```python
-from azai.docking.prepare_ligand import ligand_package_zip
-from azai.xylazine.reference import XYLAZINE
-
-open("xylazine_ligand_export.zip", "wb").write(
-    ligand_package_zip(XYLAZINE.smiles, name="xylazine")
-)
-```
-
-The bundle includes SDF, MOL, PDB, a clearly labeled PDBQT placeholder, and metadata. Production PDBQT preparation should be done with tools such as Meeko, Open Babel, or AutoDockTools. AZAI does not claim docking predictions in this release.
-
 ## Methodology summary
 
 AZAI starts with transparent cheminformatics baselines. Molecules are parsed with RDKit, converted into descriptors and fingerprints, compared with similarity metrics, screened with explicit functional-group and scaffold rules, and scored with interpretable heuristics. Probe scores are not experimental predictions; they are prioritization hypotheses designed to guide literature review and early experiments.
 
-## Fluorescent probe concept scoring
+## Stable release scope
 
-The MVP scoring model combines:
-
-- xylazine recognition potential
-- fluorescence response probability
-- synthetic accessibility
-- selectivity risk
-- aqueous compatibility
-- expected sensitivity
-- novelty
-- safety and practicality
-- interpretability
-
-Each score includes component values, an explanation, confidence, and a recommended next experiment.
-
-
-### v0.5.0 additions
-
-- Standalone HTML reports
-- Full analysis ZIP export bundles
-- Batch SMILES analysis helpers
-- Lightweight curated reference molecule table
-- Reference database page in Streamlit
-- Expanded tests for reporting and export workflows
+AZAI v1.0.0 is a stable research MVP. It includes a working package, web app, API, CLI, tests, documentation, reports, export bundles, and reproducibility tooling. It intentionally avoids unsupported claims about probe performance, biological activity, docking scores, or experimental validation.
 
 ## Roadmap
 
-- **Phase 1:** Core cheminformatics MVP
-- **Phase 2:** Probe design engine and ranking
-- **Phase 3:** Explainable tabular AI and atom highlighting
-- **Phase 4:** Literature-aware local retrieval assistant
-- **Phase 5:** Docker, docs, model cards, reports, and polished release
+- **v1.1:** richer reference data with explicit literature citations
+- **v1.2:** validated datasets and benchmark notebooks when suitable public data are available
+- **v1.3:** embedding-based literature assistant as an optional extra
+- **v1.4:** expanded explainable AI modules and model cards
+- **v2.0:** broader analytical-chemistry platform beyond xylazine-centered examples
 
 ## Contributing
 
-Contributions are welcome. Good first issues include adding descriptor tests, improving Streamlit pages, extending fluorophore metadata, adding example datasets, and writing documentation. Please keep all contributions aligned with analytical chemistry, public health, and education.
+Contributions are welcome. Good first issues include adding descriptor tests, improving Streamlit pages, extending fluorophore metadata, adding example datasets, and writing documentation. Please keep all contributions aligned with analytical chemistry, public health, safety, and education.
 
 ## Citation
 
 If AZAI supports your work, cite the repository and include the version or commit hash used. A `CITATION.cff` file is included so GitHub can display citation metadata.
-
-
-## v0.5.0 examples
-
-Run the local literature assistant demo:
-
-```bash
-python examples/literature_assistant_demo.py
-```
-
-Run the baseline descriptor model demo:
-
-```bash
-python examples/baseline_model_demo.py
-```
-
-The baseline model demo uses toy values only and does not make validated QSAR claims.
-
-## v0.7.0 probe design engine
-
-AZAI v0.7.0 expands fluorescent probe discovery with a transparent, modular design engine:
-
-- recognition motif library for xylazine-oriented analytical hypotheses
-- linker library with polarity, flexibility, accessibility, rationale, and cautions
-- spectral-window helpers for built-in fluorophores
-- probe-adjusted interferent selectivity matrix
-- staged analytical experiment recommendations
-
-These outputs are intended for literature review, prioritization, and experimental planning. They are not validated performance claims.
-
-## v0.9.0 API and CLI
-
-This release makes AZAI easier to use outside Streamlit by adding a local FastAPI service and a console command. These workflows support reproducible analysis, notebook integration, and future deployment while keeping all scientific outputs transparent and safety-bounded.

@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0 - Stable Research MVP
+
+- Bumped package version to 1.0.0.
+- Added release health checks and `azai doctor`.
+- Added stable release summary helpers and `/release/summary` API endpoint.
+- Added Streamlit Release Status tab.
+- Added stable release notes generator.
+- Refreshed README for the v1 stable research MVP.
+- Added release health tests.
+
 ## [0.9.0] - Release candidate polish
 
 ### Added
