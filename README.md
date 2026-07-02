@@ -121,6 +121,22 @@ print(similarity_profile("CN1CCN(CC1)C2=Nc3ccccc3S2", XYLAZINE.smiles))
 print(generate_markdown_report(XYLAZINE.smiles)[:500])
 ```
 
+
+### Docking-ready ligand export
+
+AZAI v0.6.0 can export RDKit-generated 3D ligand bundles for downstream docking preparation:
+
+```python
+from azai.docking.prepare_ligand import ligand_package_zip
+from azai.xylazine.reference import XYLAZINE
+
+open("xylazine_ligand_export.zip", "wb").write(
+    ligand_package_zip(XYLAZINE.smiles, name="xylazine")
+)
+```
+
+The bundle includes SDF, MOL, PDB, a clearly labeled PDBQT placeholder, and metadata. Production PDBQT preparation should be done with tools such as Meeko, Open Babel, or AutoDockTools. AZAI does not claim docking predictions in this release.
+
 ## Methodology summary
 
 AZAI starts with transparent cheminformatics baselines. Molecules are parsed with RDKit, converted into descriptors and fingerprints, compared with similarity metrics, screened with explicit functional-group and scaffold rules, and scored with interpretable heuristics. Probe scores are not experimental predictions; they are prioritization hypotheses designed to guide literature review and early experiments.

@@ -37,3 +37,17 @@
 ### Notes
 - Literature retrieval uses local TF-IDF by default so AZAI remains runnable without large model downloads.
 - Baseline models are exploratory tools and are not validated QSAR models unless users provide appropriate external validation.
+
+## [0.6.0] - Docking export and model-card polish
+
+### Added
+- RDKit 3D ligand export utilities for SDF, MOL, PDB, and placeholder PDBQT workflows.
+- Docking export ZIP bundles for downstream Meeko/Open Babel/AutoDockTools preparation.
+- Receptor preparation checklist and AutoDock Vina command builder.
+- Model-card utilities and heuristic probe scorer model card.
+- Streamlit docking export tab.
+- Docking and model-card documentation.
+- Additional tests for docking utilities and model cards.
+
+### Notes
+- AZAI does not run or validate docking predictions in this release. PDBQT exports are clearly labeled placeholders requiring external preparation.

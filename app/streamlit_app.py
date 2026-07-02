@@ -21,6 +21,8 @@ from azai.xylazine.selectivity import interferent_risk_table
 from azai.export.bundle import build_analysis_bundle
 from azai.reports.html import molecule_report_html
 from azai.xylazine.database import reference_table
+from azai.docking.prepare_ligand import ligand_package_zip, prepare_ligand_package
+from azai.docking.prepare_receptor import receptor_preparation_checklist
 
 st.set_page_config(page_title="AZAI", page_icon="🧪", layout="wide")
 
@@ -31,7 +33,7 @@ st.warning(
     "It does not provide illicit synthesis instructions or optimize abuse potential. Scores are heuristic research hypotheses."
 )
 
-profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, explain_tab, lit_tab, ref_tab, report_tab = st.tabs(
+profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, explain_tab, lit_tab, ref_tab, docking_tab, report_tab = st.tabs(
     [
         "Xylazine Profile",
         "Molecule Analyzer",
@@ -41,6 +43,7 @@ profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, explain_tab, l
         "Explainability",
         "Literature Assistant",
         "Reference DB",
+        "Docking Export",
         "Report Generator",
     ]
 )
@@ -178,6 +181,30 @@ with ref_tab:
     refs = reference_table()
     st.dataframe(refs, use_container_width=True)
     st.download_button("Download reference CSV", refs.to_csv(index=False), "azai_reference_molecules.csv")
+
+
+with docking_tab:
+    st.subheader("Docking-ready ligand export")
+    st.write(
+        "Generate RDKit 3D ligand files for downstream docking preparation. "
+        "The PDBQT file is a clearly labeled placeholder; use Meeko, Open Babel, or AutoDockTools for production docking."
+    )
+    dock_smiles = st.text_input("Ligand SMILES", value=XYLAZINE.smiles, key="dock_smiles")
+    dock_name = st.text_input("Ligand file stem", value="xylazine", key="dock_name")
+    try:
+        package = prepare_ligand_package(dock_smiles, name=dock_name)
+        st.dataframe(pd.DataFrame([package.metadata]), use_container_width=True)
+        st.download_button(
+            "Download ligand export ZIP",
+            ligand_package_zip(dock_smiles, name=dock_name),
+            f"{dock_name}_docking_export.zip",
+        )
+        with st.expander("Receptor preparation checklist"):
+            for item in receptor_preparation_checklist():
+                st.write(f"- {item}")
+        st.caption("No docking score is calculated. This export is for reproducible workflow preparation only.")
+    except Exception as exc:  # noqa: BLE001
+        st.error(str(exc))
 
 
 with report_tab:

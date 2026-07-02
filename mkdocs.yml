@@ -11,3 +11,6 @@ nav:
   - Literature Assistant: literature_assistant.md
   - Reporting: reporting.md
   - Roadmap: roadmap.md
+
+  - Docking export: docking.md
+  - Model cards: model_cards.md
