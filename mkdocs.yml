@@ -10,6 +10,8 @@ nav:
   - Explainability: explainability.md
   - Literature Assistant: literature_assistant.md
   - Reporting: reporting.md
+  - Reproducibility: reproducibility.md
+  - Release checklist: release_checklist.md
   - CLI: cli.md
   - API: api.md
   - Probe Design: probe_design.md

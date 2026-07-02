@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.9.0] - Release candidate polish
+
+### Added
+- Reproducibility manifest utilities with package versions, input hashes, platform metadata, and analysis parameters.
+- CSV/SMILES validation helpers for safer batch workflows.
+- `azai validate` CLI command for input-table validation.
+- `azai manifest` CLI command for local reproducibility records.
+- Reproducibility manifests inside analysis ZIP export bundles.
+- Reproducibility and release-readiness documentation.
+
+### Notes
+- Manifest hashes support reruns and auditability without making experimental performance claims.
+- Validation keeps invalid rows visible instead of silently dropping user inputs.
+
+
 ## [0.8.0] - API, CLI, and reproducible service workflows
 
 ### Added

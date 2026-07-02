@@ -112,7 +112,7 @@ streamlit run app/streamlit_app.py
 
 ## Command-line interface
 
-AZAI v0.8.0 includes a reproducible CLI:
+AZAI v0.9.0 includes a reproducible CLI:
 
 ```bash
 azai analyze --smiles "CC1=Nc2ccccc2SC1(C)C"
@@ -236,6 +236,6 @@ AZAI v0.7.0 expands fluorescent probe discovery with a transparent, modular desi
 
 These outputs are intended for literature review, prioritization, and experimental planning. They are not validated performance claims.
 
-## v0.8.0 API and CLI
+## v0.9.0 API and CLI
 
 This release makes AZAI easier to use outside Streamlit by adding a local FastAPI service and a console command. These workflows support reproducible analysis, notebook integration, and future deployment while keeping all scientific outputs transparent and safety-bounded.
