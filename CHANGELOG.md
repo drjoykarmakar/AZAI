@@ -21,3 +21,19 @@
 
 ### Notes
 - All probe and selectivity scores remain transparent heuristics for research prioritization only.
+
+## 0.4.0 - Local intelligence and explainability
+
+### Added
+- Lightweight TF-IDF literature assistant for local notes, abstracts, and text exports.
+- Retrieval-grounded answer synthesis with conservative uncertainty language.
+- Descriptor explanation table for transparent molecule interpretation.
+- Baseline descriptor-based regression utilities for user-supplied toy or experimental datasets.
+- Feature-importance helper for supported baseline models.
+- New Streamlit tabs for Explainability and Literature Assistant.
+- Example scripts for baseline modeling and literature retrieval.
+- Additional tests for literature retrieval, baseline modeling, and explainability.
+
+### Notes
+- Literature retrieval uses local TF-IDF by default so AZAI remains runnable without large model downloads.
+- Baseline models are exploratory tools and are not validated QSAR models unless users provide appropriate external validation.

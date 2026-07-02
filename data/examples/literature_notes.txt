@@ -1,0 +1,3 @@
+Fluorescent probes for tertiary amines commonly exploit PET or ICT mechanisms when binding or protonation changes electron transfer.
+Selectivity for xylazine-like analytes may be challenged by other basic amines and aromatic compounds in forensic or biological matrices.
+Early experiments should compare xylazine response against fentanyl, clonidine, lidocaine, ketamine, and common amines under controlled pH conditions.

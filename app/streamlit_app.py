@@ -8,10 +8,13 @@ import streamlit as st
 from azai.fluorescence.fluorophores import FLUOROPHORES
 from azai.fluorescence.probe_builder import generate_probe_concepts
 from azai.molecules.descriptors import calculate_descriptors
+from azai.models.explainability import descriptor_contribution_table
 from azai.molecules.plots import descriptor_radar, similarity_bar_chart
 from azai.molecules.similarity import rank_by_similarity
 from azai.molecules.visualization import mol_image
 from azai.reports.markdown import molecule_report_markdown
+from azai.literature.retriever import TfidfLiteratureRetriever, retrieval_results_frame
+from azai.literature.assistant import synthesize_literature_answer
 from azai.scoring.probe_score import ProbeConcept, score_probe_concept
 from azai.xylazine.reference import XYLAZINE, xylazine_profile
 from azai.xylazine.selectivity import interferent_risk_table
@@ -25,13 +28,15 @@ st.warning(
     "It does not provide illicit synthesis instructions or optimize abuse potential. Scores are heuristic research hypotheses."
 )
 
-profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, report_tab = st.tabs(
+profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, explain_tab, lit_tab, report_tab = st.tabs(
     [
         "Xylazine Profile",
         "Molecule Analyzer",
         "Analog Explorer",
         "Probe Designer",
         "Interferent Risk",
+        "Explainability",
+        "Literature Assistant",
         "Report Generator",
     ]
 )
@@ -119,6 +124,46 @@ with selectivity_tab:
     st.dataframe(risk, use_container_width=True)
     st.caption("Combined risk is a heuristic blend of fingerprint similarity and descriptor overlap, not a validated selectivity prediction.")
     st.download_button("Download interferent risk table", risk.to_csv(index=False), "azai_interferent_risk.csv")
+
+
+with explain_tab:
+    st.subheader("Transparent descriptor explanations")
+    explain_smiles = st.text_input("SMILES to explain", value=XYLAZINE.smiles, key="explain_smiles")
+    try:
+        explain_desc = calculate_descriptors(explain_smiles)
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            st.image(mol_image(explain_smiles), caption="Explained molecule")
+        with col2:
+            contribution = descriptor_contribution_table(explain_desc)
+            st.dataframe(contribution, use_container_width=True)
+            st.caption(
+                "These are rule-based interpretation notes, not causal model attributions. "
+                "Future AZAI models will add validated feature attribution when experimental datasets are available."
+            )
+    except Exception as exc:  # noqa: BLE001
+        st.error(str(exc))
+
+with lit_tab:
+    st.subheader("Local literature assistant")
+    st.write(
+        "Paste notes, abstracts, or exported text from papers. AZAI builds a local TF-IDF index "
+        "and returns retrieval-grounded excerpts. PDF parsing and embedding search are planned next."
+    )
+    default_notes = """Fluorescent probes for amines often use PET or ICT mechanisms where protonation or binding changes electron transfer.
+Tertiary amines can be challenging selectivity targets because many forensic and biological interferents contain basic amines.
+Xylazine contains an aromatic ring system and basic nitrogen-rich features that may support hydrophobic, H-bonding, and protonation-state-sensitive recognition hypotheses."""
+    literature_text = st.text_area("Local notes or abstracts", value=default_notes, height=180)
+    question = st.text_input("Question", value="What probe mechanisms are suitable for tertiary amines?")
+    if st.button("Search local literature"):
+        try:
+            retriever = TfidfLiteratureRetriever()
+            retriever.add_documents({"user_notes": literature_text})
+            chunks = retriever.search(question, top_k=5)
+            st.dataframe(retrieval_results_frame(chunks), use_container_width=True)
+            st.code(synthesize_literature_answer(question, chunks), language="markdown")
+        except Exception as exc:  # noqa: BLE001
+            st.error(str(exc))
 
 with report_tab:
     st.subheader("Markdown report generator")

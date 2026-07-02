@@ -156,3 +156,20 @@ Contributions are welcome. Good first issues include adding descriptor tests, im
 ## Citation
 
 If AZAI supports your work, cite the repository and include the version or commit hash used. A `CITATION.cff` file is included so GitHub can display citation metadata.
+
+
+## v0.4.0 examples
+
+Run the local literature assistant demo:
+
+```bash
+python examples/literature_assistant_demo.py
+```
+
+Run the baseline descriptor model demo:
+
+```bash
+python examples/baseline_model_demo.py
+```
+
+The baseline model demo uses toy values only and does not make validated QSAR claims.

@@ -7,4 +7,6 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Methodology: methodology.md
+  - Explainability: explainability.md
+  - Literature Assistant: literature_assistant.md
   - Roadmap: roadmap.md
