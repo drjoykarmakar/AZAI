@@ -9,7 +9,7 @@ description = "AI-Driven Xylazine Analytics and Innovation"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
-authors = [{name = "Joy Karmakar"}]
+authors = [{name = "Dr. Joy Karmakar"}]
 keywords = ["cheminformatics", "xylazine", "fluorescence", "RDKit", "AI for science"]
 dependencies = [
   "rdkit>=2023.9.1",

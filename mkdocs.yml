@@ -17,6 +17,7 @@ nav:
   - API: api.md
   - Probe Design: probe_design.md
   - Roadmap: roadmap.md
+  - Citation: citation.md
 
   - Docking export: docking.md
   - Model cards: model_cards.md

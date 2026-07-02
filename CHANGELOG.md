@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.3 - Author metadata and Zenodo citation update
+
+- Added Dr. Joy Karmakar author profile to README and AUTHORS.md.
+- Added ORCID, website, GitHub profile, and research interests.
+- Added Zenodo DOI badge and preferred software citation.
+- Updated CITATION.cff with DOI, ORCID, and preferred-citation metadata.
+- Added citation documentation page and MkDocs navigation entry.
+- Added author/citation information to the Streamlit Release Status tab.
+
+
 ## v1.0.3 - Streamlit chart ID maintenance hotfix
 
 - Added explicit unique Streamlit keys to Plotly chart calls in the main app.

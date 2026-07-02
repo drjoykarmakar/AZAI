@@ -1,11 +1,15 @@
 cff-version: 1.2.0
-message: "If AZAI supports your work, please cite the repository and the version or commit hash used."
+message: "If AZAI supports your work, please cite the archived Zenodo software release."
 title: "AZAI: AI-Driven Xylazine Analytics and Innovation"
+type: software
 authors:
   - family-names: Karmakar
     given-names: Joy
-version: 0.2.0
+    orcid: "https://orcid.org/0000-0002-8232-5639"
+version: "1.0.3"
 date-released: 2026-07-02
+doi: "10.5281/zenodo.21129540"
+url: "https://doi.org/10.5281/zenodo.21129540"
 repository-code: "https://github.com/drjoykarmakar/AZAI"
 license: MIT
 keywords:
@@ -14,4 +18,20 @@ keywords:
   - xylazine
   - fluorescent probes
   - analytical chemistry
+  - molecular sensing
+  - explainable AI
+  - scientific machine learning
+  - spectroscopy
 abstract: "Open-source AI platform for xylazine-focused molecular intelligence and fluorescent probe discovery."
+preferred-citation:
+  type: software
+  title: "AZAI: AI-Driven Xylazine Analytics and Innovation"
+  authors:
+    - family-names: Karmakar
+      given-names: Joy
+      orcid: "https://orcid.org/0000-0002-8232-5639"
+  version: "1.0.3"
+  date-released: 2026-07-02
+  doi: "10.5281/zenodo.21129540"
+  publisher:
+    name: Zenodo

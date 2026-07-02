@@ -5,10 +5,12 @@
 **AI-Driven Xylazine Analytics and Innovation**
 
 [![CI](https://github.com/drjoykarmakar/AZAI/actions/workflows/ci.yml/badge.svg)](https://github.com/drjoykarmakar/AZAI/actions/workflows/ci.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21129540.svg)](https://doi.org/10.5281/zenodo.21129540)
+[![ORCID](https://img.shields.io/badge/ORCID-0000--0002--8232--5639-A6CE39?logo=orcid)](https://orcid.org/0000-0002-8232-5639)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![RDKit](https://img.shields.io/badge/RDKit-cheminformatics-green)
-![Status](https://img.shields.io/badge/status-v1.0.0%20stable%20research%20MVP-brightgreen)
+![Status](https://img.shields.io/badge/status-v1.0.3%20stable%20research%20MVP-brightgreen)
 
 > **AZAI is an open-source AI platform for xylazine-focused molecular intelligence and fluorescent probe discovery.**
 
@@ -24,7 +26,7 @@ AZAI helps researchers analyze xylazine and related molecular structures, priori
 
 AZAI is intended for analytical chemistry, public health research, forensic detection, molecular characterization, fluorescent probe discovery, and medicinal chemistry education. It must not be used to optimize xylazine potency, abuse potential, harmful delivery, clandestine synthesis, or illicit drug production. All scores are computational prioritization hypotheses unless experimentally validated.
 
-## What is included in v1.0.0
+## What is included in v1.0.3
 
 - RDKit molecule loading and standardization helpers
 - Xylazine reference profile and curated reference molecule table
@@ -120,7 +122,7 @@ AZAI starts with transparent cheminformatics baselines. Molecules are parsed wit
 
 ## Stable release scope
 
-AZAI v1.0.0 is a stable research MVP. It includes a working package, web app, API, CLI, tests, documentation, reports, export bundles, and reproducibility tooling. It intentionally avoids unsupported claims about probe performance, biological activity, docking scores, or experimental validation.
+AZAI v1.0.3 is a stable research MVP. It includes a working package, web app, API, CLI, tests, documentation, reports, export bundles, and reproducibility tooling. It intentionally avoids unsupported claims about probe performance, biological activity, docking scores, or experimental validation.
 
 ## Roadmap
 
@@ -134,6 +136,47 @@ AZAI v1.0.0 is a stable research MVP. It includes a working package, web app, AP
 
 Contributions are welcome. Good first issues include adding descriptor tests, improving Streamlit pages, extending fluorophore metadata, adding example datasets, and writing documentation. Please keep all contributions aligned with analytical chemistry, public health, safety, and education.
 
+## Author
+
+**Dr. Joy Karmakar**  
+Founder & Principal Developer — NarcoticSense AI  
+Founder — DyeMind
+
+- Website: <https://www.dyemind.com>
+- ORCID: <https://orcid.org/0000-0002-8232-5639>
+- GitHub: <https://github.com/drjoykarmakar>
+
+## Research interests
+
+- Artificial Intelligence for Spectroscopy
+- Fluorescence Spectroscopy
+- Raman Spectroscopy
+- Chemometrics
+- Analytical Chemistry
+- Molecular Sensing
+- Intelligent Sensor Development
+- Scientific Machine Learning
+- Explainable Artificial Intelligence
+- Multimodal Spectroscopic Analysis
+
 ## Citation
 
-If AZAI supports your work, cite the repository and include the version or commit hash used. A `CITATION.cff` file is included so GitHub can display citation metadata.
+If AZAI supports your work, please cite the archived software release:
+
+> Karmakar, J. (2026). *AZAI: AI-Driven Xylazine Analytics and Innovation* (v1.0.3). Zenodo. <https://doi.org/10.5281/zenodo.21129540>
+
+BibTeX:
+
+```bibtex
+@software{karmakar_azai_2026,
+  author  = {Karmakar, Joy},
+  title   = {AZAI: AI-Driven Xylazine Analytics and Innovation},
+  version = {v1.0.3},
+  year    = {2026},
+  publisher = {Zenodo},
+  doi     = {10.5281/zenodo.21129540},
+  url     = {https://doi.org/10.5281/zenodo.21129540}
+}
+```
+
+A `CITATION.cff` file is included so GitHub can display citation metadata.
