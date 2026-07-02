@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <rect width="240" height="240" rx="40" fill="#111827"/>
+  <circle cx="120" cy="96" r="42" fill="none" stroke="#22d3ee" stroke-width="8"/>
+  <path d="M76 168h88M92 168l28-48 28 48" stroke="#a7f3d0" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <text x="120" y="216" font-family="Arial" font-size="28" text-anchor="middle" fill="white">AZAI</text>
+</svg>
