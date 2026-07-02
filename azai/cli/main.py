@@ -15,6 +15,8 @@ from azai.molecules.batch import xylazine_similarity_workup
 from azai.molecules.descriptors import calculate_descriptors
 from azai.reports.markdown import SAFETY_TEXT, generate_markdown_report
 from azai.reproducibility.manifest import build_manifest
+from azai.release.health import health_markdown, health_report
+from azai.release.notes import stable_release_markdown
 
 
 def _write_text(path: str | None, text: str) -> None:
@@ -73,6 +75,20 @@ def cmd_manifest(args: argparse.Namespace) -> None:
     manifest = build_manifest(smiles=args.smiles, files=files, parameters={"workflow": args.workflow})
     _write_text(args.output, json.dumps(manifest, indent=2, sort_keys=True))
 
+
+
+def cmd_doctor(args: argparse.Namespace) -> None:
+    """Run local AZAI release health checks."""
+    if args.markdown:
+        _write_text(args.output, health_markdown())
+    else:
+        _write_text(args.output, json.dumps(health_report(), indent=2, sort_keys=True))
+
+
+def cmd_release_notes(args: argparse.Namespace) -> None:
+    """Print stable release notes."""
+    _write_text(args.output, stable_release_markdown())
+
 def build_parser() -> argparse.ArgumentParser:
     """Build the AZAI CLI parser."""
     parser = argparse.ArgumentParser(prog="azai", description="AZAI cheminformatics and probe discovery CLI")
@@ -117,6 +133,16 @@ def build_parser() -> argparse.ArgumentParser:
     manifest.add_argument("--workflow", default="cli")
     manifest.add_argument("--output")
     manifest.set_defaults(func=cmd_manifest)
+
+
+    doctor = subparsers.add_parser("doctor", help="Run local release health checks")
+    doctor.add_argument("--markdown", action="store_true")
+    doctor.add_argument("--output")
+    doctor.set_defaults(func=cmd_doctor)
+
+    notes = subparsers.add_parser("release-notes", help="Print AZAI stable release notes")
+    notes.add_argument("--output")
+    notes.set_defaults(func=cmd_release_notes)
     return parser
 
 

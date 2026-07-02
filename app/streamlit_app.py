@@ -27,6 +27,8 @@ from azai.reports.html import molecule_report_html
 from azai.xylazine.database import reference_table
 from azai.docking.prepare_ligand import ligand_package_zip, prepare_ligand_package
 from azai.docking.prepare_receptor import receptor_preparation_checklist
+from azai.release.health import health_report
+from azai.release.notes import stable_release_markdown, stable_release_summary
 
 st.set_page_config(page_title="AZAI", page_icon="🧪", layout="wide")
 
@@ -37,7 +39,7 @@ st.warning(
     "It does not provide illicit synthesis instructions or optimize abuse potential. Scores are heuristic research hypotheses."
 )
 
-profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, explain_tab, lit_tab, ref_tab, docking_tab, report_tab = st.tabs(
+profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, explain_tab, lit_tab, ref_tab, docking_tab, status_tab, report_tab = st.tabs(
     [
         "Xylazine Profile",
         "Molecule Analyzer",
@@ -48,6 +50,7 @@ profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, explain_tab, l
         "Literature Assistant",
         "Reference DB",
         "Docking Export",
+        "Release Status",
         "Report Generator",
     ]
 )
@@ -224,6 +227,22 @@ with docking_tab:
         st.caption("No docking score is calculated. This export is for reproducible workflow preparation only.")
     except Exception as exc:  # noqa: BLE001
         st.error(str(exc))
+
+
+with status_tab:
+    st.subheader("Stable release status")
+    summary = stable_release_summary()
+    health = health_report()
+    st.metric("AZAI version", summary["version"])
+    st.metric("Health status", health["status"])
+    st.write("Core capabilities")
+    for item in summary["core_capabilities"]:
+        st.write(f"- {item}")
+    st.write("Scientific limits")
+    for item in summary["limits"]:
+        st.write(f"- {item}")
+    st.dataframe(pd.DataFrame(health["checks"]), use_container_width=True)
+    st.download_button("Download release notes", stable_release_markdown(), "AZAI_v1_release_notes.md")
 
 
 with report_tab:

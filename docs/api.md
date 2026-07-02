@@ -32,3 +32,12 @@ curl -X POST http://127.0.0.1:8000/molecule/analyze \
 ## Safety boundary
 
 The API is for local analytical chemistry research, molecular characterization, public health, and education. It does not provide clandestine synthesis, harmful optimization, or misuse-oriented guidance.
+
+## Stable release endpoints
+
+AZAI v1.0.0 adds release metadata endpoints:
+
+- `GET /health` returns a JSON health report for the local installation.
+- `GET /release/summary` returns the stable MVP scope and scientific limitations.
+
+These endpoints are designed for local reproducibility checks and deployment smoke tests.

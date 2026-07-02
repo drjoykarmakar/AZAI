@@ -24,6 +24,8 @@ from azai.molecules.descriptors import calculate_descriptors, medicinal_interpre
 from azai.molecules.functional_groups import present_functional_groups
 from azai.molecules.similarity import rank_by_similarity
 from azai.reports.markdown import SAFETY_TEXT, generate_markdown_report
+from azai.release.health import health_report
+from azai.release.notes import stable_release_summary
 from azai.xylazine.reference import XYLAZINE, xylazine_profile
 
 app = FastAPI(
@@ -34,9 +36,15 @@ app = FastAPI(
 
 
 @app.get("/health")
-def health() -> dict[str, str]:
+def health() -> dict[str, object]:
     """Return service health and package version."""
-    return {"status": "ok", "version": __version__}
+    return health_report()
+
+
+@app.get("/release/summary")
+def release_summary() -> dict[str, object]:
+    """Return the stable release scope and limitations."""
+    return stable_release_summary()
 
 
 @app.get("/safety")
