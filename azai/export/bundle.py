@@ -11,6 +11,7 @@ import pandas as pd
 from azai.molecules.descriptors import calculate_descriptors
 from azai.reports.html import molecule_report_html
 from azai.reports.markdown import generate_markdown_report
+from azai.reproducibility.manifest import build_manifest
 from azai.xylazine.selectivity import interferent_risk_table
 
 
@@ -22,6 +23,11 @@ def build_analysis_bundle(smiles: str, title: str = "AZAI Molecular Intelligence
     html = molecule_report_html(smiles, title=title)
     descriptor_json = json.dumps(descriptors, indent=2, sort_keys=True)
     descriptor_csv = pd.DataFrame([descriptors]).to_csv(index=False)
+    manifest = json.dumps(
+        build_manifest(smiles=smiles, parameters={"bundle_title": title, "workflow": "analysis_bundle"}),
+        indent=2,
+        sort_keys=True,
+    )
 
     buffer = BytesIO()
     with zipfile.ZipFile(buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as archive:
@@ -30,6 +36,7 @@ def build_analysis_bundle(smiles: str, title: str = "AZAI Molecular Intelligence
         archive.writestr("descriptors.json", descriptor_json)
         archive.writestr("descriptors.csv", descriptor_csv)
         archive.writestr("interferent_risk.csv", risk.to_csv(index=False))
+        archive.writestr("reproducibility_manifest.json", manifest)
         archive.writestr(
             "SAFETY.txt",
             "AZAI is for analytical chemistry, public health, forensic detection, and education. "
