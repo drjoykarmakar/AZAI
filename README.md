@@ -141,6 +141,16 @@ The MVP scoring model combines:
 
 Each score includes component values, an explanation, confidence, and a recommended next experiment.
 
+
+### v0.5.0 additions
+
+- Standalone HTML reports
+- Full analysis ZIP export bundles
+- Batch SMILES analysis helpers
+- Lightweight curated reference molecule table
+- Reference database page in Streamlit
+- Expanded tests for reporting and export workflows
+
 ## Roadmap
 
 - **Phase 1:** Core cheminformatics MVP
@@ -158,7 +168,7 @@ Contributions are welcome. Good first issues include adding descriptor tests, im
 If AZAI supports your work, cite the repository and include the version or commit hash used. A `CITATION.cff` file is included so GitHub can display citation metadata.
 
 
-## v0.4.0 examples
+## v0.5.0 examples
 
 Run the local literature assistant demo:
 

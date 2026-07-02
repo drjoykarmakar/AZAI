@@ -12,12 +12,15 @@ from azai.models.explainability import descriptor_contribution_table
 from azai.molecules.plots import descriptor_radar, similarity_bar_chart
 from azai.molecules.similarity import rank_by_similarity
 from azai.molecules.visualization import mol_image
-from azai.reports.markdown import molecule_report_markdown
+from azai.reports.markdown import generate_markdown_report
 from azai.literature.retriever import TfidfLiteratureRetriever, retrieval_results_frame
 from azai.literature.assistant import synthesize_literature_answer
 from azai.scoring.probe_score import ProbeConcept, score_probe_concept
 from azai.xylazine.reference import XYLAZINE, xylazine_profile
 from azai.xylazine.selectivity import interferent_risk_table
+from azai.export.bundle import build_analysis_bundle
+from azai.reports.html import molecule_report_html
+from azai.xylazine.database import reference_table
 
 st.set_page_config(page_title="AZAI", page_icon="🧪", layout="wide")
 
@@ -28,7 +31,7 @@ st.warning(
     "It does not provide illicit synthesis instructions or optimize abuse potential. Scores are heuristic research hypotheses."
 )
 
-profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, explain_tab, lit_tab, report_tab = st.tabs(
+profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, explain_tab, lit_tab, ref_tab, report_tab = st.tabs(
     [
         "Xylazine Profile",
         "Molecule Analyzer",
@@ -37,6 +40,7 @@ profile_tab, analyze_tab, analog_tab, probe_tab, selectivity_tab, explain_tab, l
         "Interferent Risk",
         "Explainability",
         "Literature Assistant",
+        "Reference DB",
         "Report Generator",
     ]
 )
@@ -165,12 +169,31 @@ Xylazine contains an aromatic ring system and basic nitrogen-rich features that 
         except Exception as exc:  # noqa: BLE001
             st.error(str(exc))
 
+with ref_tab:
+    st.subheader("Curated reference molecules")
+    st.write(
+        "Small transparent molecule set for xylazine-centered analytical chemistry demos. "
+        "This is not a validated forensic database."
+    )
+    refs = reference_table()
+    st.dataframe(refs, use_container_width=True)
+    st.download_button("Download reference CSV", refs.to_csv(index=False), "azai_reference_molecules.csv")
+
+
 with report_tab:
-    st.subheader("Markdown report generator")
+    st.subheader("Scientific report and export bundle")
     report_smiles = st.text_input("Report molecule SMILES", value=XYLAZINE.smiles, key="report_smiles")
     try:
-        report = molecule_report_markdown(report_smiles, title="AZAI Molecular Analysis Report")
-        st.download_button("Download Markdown report", report, "azai_report.md")
+        report = generate_markdown_report(report_smiles, title="AZAI Molecular Analysis Report")
+        html_report = molecule_report_html(report_smiles, title="AZAI Molecular Analysis Report")
+        bundle = build_analysis_bundle(report_smiles, title="AZAI Molecular Analysis Report")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.download_button("Download Markdown", report, "azai_report.md")
+        with col2:
+            st.download_button("Download HTML", html_report, "azai_report.html")
+        with col3:
+            st.download_button("Download full ZIP bundle", bundle, "azai_analysis_bundle.zip")
         st.code(report, language="markdown")
     except Exception as exc:  # noqa: BLE001
         st.error(str(exc))
