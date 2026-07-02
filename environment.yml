@@ -1,0 +1,17 @@
+name: azai
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - rdkit
+  - pandas
+  - numpy
+  - scikit-learn
+  - matplotlib
+  - plotly
+  - streamlit
+  - pytest
+  - pip
+  - pip:
+      - pydantic>=2.5
+      - ruff>=0.1.9
