@@ -33,6 +33,10 @@ AZAI is intended for analytical chemistry, public health research, forensic dete
 - Xylazine similarity ranking for CSV inputs
 - Built-in fluorophore library
 - Transparent probe scoring from 0 to 100
+Rule-based fluorescent probe concept generation
+Interferent selectivity-risk triage
+Interactive descriptor and similarity charts
+Markdown report generation from the web app
 - Markdown report generator
 - Streamlit MVP app
 - Example command-line scripts
