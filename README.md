@@ -1,5 +1,7 @@
 # AZAI
 
+**Current release:** v1.0.3
+
 **AI-Driven Xylazine Analytics and Innovation**
 
 [![CI](https://github.com/drjoykarmakar/AZAI/actions/workflows/ci.yml/badge.svg)](https://github.com/drjoykarmakar/AZAI/actions/workflows/ci.yml)

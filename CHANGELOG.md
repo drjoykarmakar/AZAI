@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.0.3 - Streamlit chart ID maintenance hotfix
+
+- Added explicit unique Streamlit keys to Plotly chart calls in the main app.
+- Kept similarity plotting resilient to `morgan_tanimoto`, `azai_similarity_score`, and legacy `tanimoto_morgan` column names.
+- This release is intended to replace older local folders that still show duplicate Plotly element ID warnings.
+
+## 1.0.2 - Streamlit plotting hotfix
+
+- Added explicit Streamlit chart keys for radar and similarity plots to avoid duplicate generated element IDs.
+- Confirmed the similarity bar chart uses the current `morgan_tanimoto` column with fallback support for older result tables.
+- This is a usability hotfix for local Streamlit sessions after upgrading from earlier AZAI releases.
+
+## v1.0.1 - Streamlit similarity chart hotfix
+
+- Fixed the Streamlit similarity bar chart to use the current `morgan_tanimoto` column name.
+- Added fallback handling for aggregate and legacy similarity score columns.
+- Added plot regression tests for current and fallback score columns.
+
 ## v1.0.0 - Stable Research MVP
 
 - Bumped package version to 1.0.0.
