@@ -25,10 +25,32 @@ def descriptor_radar(descriptors: dict[str, float]) -> go.Figure:
     return fig
 
 
-def similarity_bar_chart(df: pd.DataFrame, score_column: str = "tanimoto_morgan") -> go.Figure:
-    """Create a bar chart for similarity ranking output."""
+def similarity_bar_chart(df: pd.DataFrame, score_column: str = "morgan_tanimoto") -> go.Figure:
+    """Create a bar chart for similarity ranking output.
+
+    The similarity API has used a few column names across AZAI releases.
+    This helper accepts the current canonical name and gracefully falls back
+    to older or aggregate score columns so the Streamlit app does not crash
+    when loaded with saved/example outputs from another version.
+    """
 
     plot_df = df.copy().head(20)
     if "label" not in plot_df.columns:
         plot_df["label"] = [f"Mol {idx + 1}" for idx in range(len(plot_df))]
-    return px.bar(plot_df, x="label", y=score_column, hover_data=[col for col in ["smiles"] if col in plot_df.columns])
+
+    fallback_columns = [
+        score_column,
+        "morgan_tanimoto",
+        "azai_similarity_score",
+        "tanimoto_morgan",
+        "maccs_tanimoto",
+        "descriptor_similarity",
+    ]
+    y_column = next((column for column in fallback_columns if column in plot_df.columns), None)
+    if y_column is None:
+        raise ValueError(
+            "No similarity score column found. Expected one of: "
+            + ", ".join(dict.fromkeys(fallback_columns))
+        )
+
+    return px.bar(plot_df, x="label", y=y_column, hover_data=[col for col in ["smiles"] if col in plot_df.columns])

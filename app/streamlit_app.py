@@ -64,7 +64,7 @@ with profile_tab:
         st.subheader("Reference profile")
         st.write(profile["description"])
         st.dataframe(pd.DataFrame([profile["descriptors"]]), use_container_width=True)
-        st.plotly_chart(descriptor_radar(profile["descriptors"]), use_container_width=True)
+        st.plotly_chart(descriptor_radar(profile["descriptors"]), use_container_width=True, key="profile_descriptor_radar")
         st.write("Functional group alerts")
         st.json(profile["functional_group_alerts"])
         st.write("Medicinal chemistry interpretation")
@@ -80,7 +80,7 @@ with analyze_tab:
                 st.image(mol_image(smiles), caption="Input molecule")
             with col2:
                 st.dataframe(pd.DataFrame([descriptors]), use_container_width=True)
-                st.plotly_chart(descriptor_radar(descriptors), use_container_width=True)
+                st.plotly_chart(descriptor_radar(descriptors), use_container_width=True, key="analyzer_descriptor_radar")
             st.subheader("Similarity to xylazine")
             st.dataframe(rank_by_similarity([smiles], XYLAZINE.smiles), use_container_width=True)
         except Exception as exc:  # noqa: BLE001
@@ -108,7 +108,7 @@ with analog_tab:
         if "name" in df.columns and len(df) == len(ranked):
             ranked.insert(0, "label", df["name"].astype(str).tolist())
         st.dataframe(ranked, use_container_width=True)
-        st.plotly_chart(similarity_bar_chart(ranked), use_container_width=True)
+        st.plotly_chart(similarity_bar_chart(ranked), use_container_width=True, key="analog_similarity_bar_chart")
         st.download_button("Download ranked CSV", ranked.to_csv(index=False), "azai_similarity_results.csv")
 
 with probe_tab:
