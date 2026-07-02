@@ -69,3 +69,13 @@ class TfidfLiteratureRetriever:
 def retrieval_results_frame(results: list[RetrievedChunk]) -> pd.DataFrame:
     """Convert retrieval results to a DataFrame."""
     return pd.DataFrame([r.__dict__ for r in results])
+
+
+def retrieve_relevant_chunks(query: str, notes: list[str], top_k: int = 3) -> list[dict[str, object]]:
+    """Retrieve relevant chunks from in-memory notes.
+
+    This is a lightweight API/CLI helper around :class:`TfidfLiteratureRetriever`.
+    """
+    retriever = TfidfLiteratureRetriever()
+    retriever.add_documents({f"note_{i + 1}": note for i, note in enumerate(notes)})
+    return [result.__dict__ for result in retriever.search(query, top_k=top_k)]

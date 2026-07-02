@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.8.0] - API, CLI, and reproducible service workflows
+
+### Added
+- FastAPI service with health, safety, xylazine profile, molecule analysis, similarity, probe design, literature query, and Markdown report endpoints.
+- Pydantic request/response schemas for local programmatic use.
+- `azai` command-line interface with analyze, similarity, probes, and report commands.
+- API and CLI documentation pages.
+- Example local API client.
+- Tests for API endpoints and CLI workflows.
+
+### Notes
+- The API remains local-first and safety-bounded. It exposes analytical chemistry and research-planning outputs only.
+
+
 ## v0.2.0 - Professional project scaffold
 
 - Added citation, contribution, conduct, security, changelog, issue templates, and PR template.

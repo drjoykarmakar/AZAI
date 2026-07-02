@@ -105,3 +105,16 @@ def generate_probe_concepts(limit: int = 16) -> list[dict[str, object]]:
             concepts.append(generated)
     ranked = sorted((asdict(item) for item in concepts), key=lambda row: row["total_score"], reverse=True)
     return ranked[:limit]
+
+
+def generate_probe_candidates(target_smiles: str | None = None, max_candidates: int = 16) -> list[dict[str, object]]:
+    """Compatibility wrapper for target-aware probe generation.
+
+    The v0.8.0 API accepts a target SMILES for future expansion. The current
+    heuristic engine is xylazine-focused and uses the target only as explicit
+    user context; no unsupported target-specific performance claims are made.
+    """
+    candidates = generate_probe_concepts(limit=max_candidates)
+    for candidate in candidates:
+        candidate["target_smiles"] = target_smiles or "xylazine-focused reference context"
+    return candidates
